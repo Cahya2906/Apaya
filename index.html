@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sadrah — For Revenge</title>
+  <style>
+    body {
+      margin:0;
+      background:#0b0b0d;
+      font-family: 'Arial', sans-serif;
+      color:#fff;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+    }
+
+    .phone {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center; /* center horizontal */
+  align-items: center;     /* center vertical */
+  flex-direction: column;  /* supaya bisa tambah elemen lain vertikal */
+  overflow: hidden;
+}
+
+    .slide {
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      opacity:0;
+      transition:opacity 1s ease-in-out;
+    }
+
+    .slide.active {opacity:1;}
+
+    .overlay {
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg,rgba(0,0,0,0.2),rgba(0,0,0,0.7));
+      z-index:1;
+    }
+
+.text {
+  text-align: center;
+  font-size: calc(16px + 1vw); /* otomatis menyesuaikan layar */
+  line-height: 1.5;
+  z-index: 2;
+  color: #f5f5f5;
+  font-style: italic;
+  padding: 0 20px; /* buat jaga jarak dari tepi layar */
+}
+
+
+    /* Custom Audio Player */
+    .audio-player {
+      position:absolute;
+      bottom:20px;
+      left:50%;
+      transform:translateX(-50%);
+      z-index:3;
+    }
+
+    .audio-player button {
+      background: rgba(255,255,255,0.2);
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .audio-player button:hover {
+      background: rgba(255,255,255,0.4);
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="phone" id="slideshow">
+    <div class="overlay"></div>
+    <div class="text" id="quote">“Kadang kalah bukan berarti lemah, tapi cara hati belajar ikhlas.”</div>
+    <div class="audio-player">
+      <button id="playBtn">▶️</button>
+    </div>
+  </div>
+
+  <script>
+    // Gambar slideshow
+    const images = [
+      "img1.jpg",
+      "img2.png",
+      "img3.png",
+      "img4.png",
+      "img5.png",
+      "img6.png",
+      "img7.png"
+    ];
+
+    const quotes = [
+      "“Kadang kalah bukan berarti lemah, tapi cara hati belajar ikhlas.”",
+      "“Pasrah bukan menyerah, tapi menerima kenyataan.”",
+      "“Hati yang terluka, tetap bisa bangkit.”",
+      "“Setiap kehilangan adalah pelajaran berharga.”",
+      "“Bangkit dari patah hati adalah kekuatan sejati.”",
+      "“Sakit hari ini, membuatmu kuat besok.”",
+      "“Lepaskan yang tak bisa dipertahankan, hidup akan lebih ringan.”"
+    ];
+
+    const slideshow = document.getElementById("slideshow");
+    const quoteText = document.getElementById("quote");
+    let current = 0;
+    let slides = [];
+
+    images.forEach((src,i)=>{
+      const img = document.createElement("img");
+      img.src = src;
+      img.classList.add("slide");
+      if(i===0) img.classList.add("active");
+      slideshow.appendChild(img);
+      slides.push(img);
+    });
+
+    setInterval(()=>{
+      slides[current].classList.remove("active");
+      current = (current+1)%slides.length;
+      slides[current].classList.add("active");
+      quoteText.textContent = quotes[current];
+    },5000);
+
+    // Custom Audio Player
+    const audio = new Audio("lagu.mp3");
+    audio.volume = 0.9;
+    const playBtn = document.getElementById("playBtn");
+
+    playBtn.addEventListener("click", () => {
+      if(audio.paused){
+        audio.play();
+        playBtn.textContent = "⏸️";
+      } else {
+        audio.pause();
+        playBtn.textContent = "▶️";
+      }
+    });
+
+  </script>
+</body>
+</html>
